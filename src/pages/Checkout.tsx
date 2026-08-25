@@ -11,7 +11,15 @@ import Form from "react-bootstrap/Form";
 import { AuthContext } from "../context/AuthContext";
 import { CartContext } from "../context/CartContext";
 import { getAddressesByUserId } from "../api/addressApi";
+
 import type { Address, CartItem } from "../types";
+
+type CheckoutData = {
+  userId: string;
+  addressId: string;
+  items: CartItem[];
+  total: number;
+};
 
 export default function Checkout() {
   const auth = useContext(AuthContext);
@@ -27,111 +35,116 @@ export default function Checkout() {
   const { user } = auth;
   const { cart } = cartContext;
 
-  const buyNowItem = (location.state as { buyNowItem?: CartItem })
-    ?.buyNowItem;
+  const buyNowItem = (
+    location.state as {
+      buyNowItem?: CartItem;
+    } | null
+  )?.buyNowItem;
 
-  const itemsToCheckout: CartItem[] = buyNowItem
-    ? [buyNowItem]
-    : cart;
+  const itemsToCheckout: CartItem[] = buyNowItem ? [buyNowItem] : cart;
 
   const [addresses, setAddresses] = useState<Address[]>([]);
-  const [selectedAddressId, setSelectedAddressId] =
-    useState<string>("");
+
+  const [selectedAddressId, setSelectedAddressId] = useState("");
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!user) {
       navigate("/login", {
-        state: { from: "/checkout" },
+        state: {
+          from: "/checkout",
+        },
+        replace: true,
       });
+
       return;
     }
 
     const loadAddresses = async () => {
-      setLoading(true);
+      try {
+        setLoading(true);
 
-      const data = await getAddressesByUserId(user.id);
+        const data = await getAddressesByUserId(user.id);
 
-      setAddresses(data);
+        setAddresses(data);
 
-      if (data.length > 0) {
-        setSelectedAddressId(data[0].id);
+        if (data.length > 0) {
+          setSelectedAddressId(data[0].id);
+        }
+      } finally {
+        setLoading(false);
       }
-
-      setLoading(false);
     };
 
     loadAddresses();
   }, [user, navigate]);
 
+  useEffect(() => {
+    if (user && !buyNowItem && cart.length === 0) {
+      navigate("/cart", {
+        replace: true,
+      });
+    }
+  }, [user, buyNowItem, cart.length, navigate]);
+
   if (!user) {
     return null;
   }
 
+  if (loading) {
+    return <Container className="py-5">Loading...</Container>;
+  }
+
+  if (itemsToCheckout.length === 0) {
+    return null;
+  }
+
   const total = itemsToCheckout.reduce(
-    (sum, item) =>
-      sum + item.price * item.quantity,
-    0
+    (sum, item) => sum + item.price * item.quantity,
+    0,
   );
+
+  const openAddresses = () => {
+    navigate("/addresses", {
+      state: {
+        from: "/checkout",
+        buyNowItem,
+      },
+    });
+  };
 
   const handleProceed = () => {
     if (!selectedAddressId) {
       return;
     }
 
-    navigate("/payment", {
-      state: {
-        addressId: selectedAddressId,
-        items: itemsToCheckout,
-        total,
-      },
-    });
+    const checkoutData: CheckoutData = {
+      userId: user.id,
+      addressId: selectedAddressId,
+      items: itemsToCheckout,
+      total,
+    };
+
+    sessionStorage.setItem("nexbuy_checkout", JSON.stringify(checkoutData));
+
+    navigate("/payment");
   };
-
-  if (loading) {
-    return (
-      <Container className="py-5">
-        Loading...
-      </Container>
-    );
-  }
-
-  if (itemsToCheckout.length === 0) {
-    return (
-      <Container className="py-5">
-        <Alert variant="info">
-          There is nothing to checkout.
-        </Alert>
-      </Container>
-    );
-  }
 
   return (
     <Container className="py-4">
-      <h4 className="fw-bold mb-4">
-        Checkout
-      </h4>
+      <h4 className="fw-bold mb-4">Checkout</h4>
 
       <Row className="g-4">
         <Col lg={7}>
           <Card className="p-3 shadow-sm mb-3">
-            <h6 className="fw-bold mb-3">
-              Select Delivery Address
-            </h6>
+            <h6 className="fw-bold mb-3">Select Delivery Address</h6>
 
             {addresses.length === 0 && (
               <Alert variant="warning">
-                You have no saved addresses.
-                Please add one first.
-
+                You have no saved addresses. Please add one first.
                 <div className="mt-2">
-                  <Button
-                    size="sm"
-                    variant="primary"
-                    onClick={() =>
-                      navigate("/addresses")
-                    }
-                  >
+                  <Button size="sm" variant="primary" onClick={openAddresses}>
                     Add Address
                   </Button>
                 </div>
@@ -145,25 +158,16 @@ export default function Checkout() {
                 id={`addr-${addr.id}`}
                 name="address"
                 className="border rounded p-2 mb-2"
-                checked={
-                  selectedAddressId === addr.id
-                }
-                onChange={() =>
-                  setSelectedAddressId(addr.id)
-                }
+                checked={selectedAddressId === addr.id}
+                onChange={() => setSelectedAddressId(addr.id)}
                 label={
                   <div>
-                    <div className="fw-semibold">
-                      {addr.name}
-                    </div>
+                    <div className="fw-semibold">{addr.name}</div>
 
-                    <div className="small text-muted">
-                      {addr.phone}
-                    </div>
+                    <div className="small text-muted">{addr.phone}</div>
 
                     <div className="small">
-                      {addr.address}, {addr.city},{" "}
-                      {addr.state} - {addr.pincode}
+                      {addr.address}, {addr.city}, {addr.state} - {addr.pincode}
                     </div>
                   </div>
                 }
@@ -174,9 +178,7 @@ export default function Checkout() {
               variant="outline-primary"
               size="sm"
               className="mt-2 align-self-start"
-              onClick={() =>
-                navigate("/addresses")
-              }
+              onClick={openAddresses}
             >
               Manage Addresses
             </Button>
@@ -185,9 +187,7 @@ export default function Checkout() {
 
         <Col lg={5}>
           <Card className="p-3 shadow-sm">
-            <h6 className="fw-bold mb-3">
-              Order Summary
-            </h6>
+            <h6 className="fw-bold mb-3">Order Summary</h6>
 
             {itemsToCheckout.map((item) => (
               <div
@@ -200,9 +200,7 @@ export default function Checkout() {
 
                 <span>
                   &#8377;
-                  {(
-                    item.price * item.quantity
-                  ).toLocaleString("en-IN")}
+                  {(item.price * item.quantity).toLocaleString("en-IN")}
                 </span>
               </div>
             ))}

@@ -625,8 +625,8 @@
           "id": "1",
           "name": "iPhone 15",
           "brand": "Apple",
-          "price": 59999,
-          "originalPrice": 89999,
+          "price": 46999,
+          "originalPrice": 74999,
           "category": "Mobiles",
           "rating": 4.7,
           "image": "/products/product_01.png",
@@ -655,10 +655,10 @@
             }
           ],
           "selectedVariant": {
-            "id": "1-2",
-            "label": "256 GB + 12 GB",
-            "price": 59999,
-            "originalPrice": 89999,
+            "id": "1-1",
+            "label": "128 GB + 6 GB",
+            "price": 46999,
+            "originalPrice": 74999,
             "stock": 6
           },
           "quantity": 2
@@ -751,6 +751,68 @@
       },
       "createdAt": "2026-08-25T07:38:54.932Z",
       "id": "U33ZB42DOtE"
+    },
+    {
+      "userId": "iUo6enTov8E",
+      "cart": [
+        {
+          "id": "1",
+          "name": "iPhone 15",
+          "brand": "Apple",
+          "price": 59999,
+          "originalPrice": 89999,
+          "category": "Mobiles",
+          "rating": 4.7,
+          "image": "/products/product_01.png",
+          "description": "Latest Apple iPhone with A16 Bionic chip and dual camera system.",
+          "variants": [
+            {
+              "id": "1-1",
+              "label": "128 GB + 6 GB",
+              "price": 46999,
+              "originalPrice": 74999,
+              "stock": 6
+            },
+            {
+              "id": "1-2",
+              "label": "256 GB + 12 GB",
+              "price": 59999,
+              "originalPrice": 89999,
+              "stock": 6
+            },
+            {
+              "id": "1-3",
+              "label": "256 GB + 8 GB",
+              "price": 53999,
+              "originalPrice": 79999,
+              "stock": 2
+            }
+          ],
+          "selectedVariant": {
+            "id": "1-2",
+            "label": "256 GB + 12 GB",
+            "price": 59999,
+            "originalPrice": 89999,
+            "stock": 6
+          },
+          "quantity": 2
+        }
+      ],
+      "total": 119998,
+      "paymentMethod": "UPI",
+      "status": "Confirmed",
+      "deliveryAddress": {
+        "name": "saran raj",
+        "phone": "6374923042",
+        "address": "bommampatty",
+        "city": "namakkal",
+        "state": "tn",
+        "pincode": "637212",
+        "userId": "iUo6enTov8E",
+        "id": "KmdhN5qmkyo"
+      },
+      "createdAt": "2026-08-25T13:24:12.398Z",
+      "id": "xJddJT8EEtY"
     }
   ],
   "wishlists": [

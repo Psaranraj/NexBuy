@@ -22,7 +22,11 @@ export default function Login() {
   const [submitting, setSubmitting] = useState(false);
 
   const redirectTo =
-    (location.state as { from?: string })?.from ?? "/";
+    (
+      location.state as {
+        from?: string;
+      }
+    )?.from ?? "/";
 
   if (!auth) {
     return null;
@@ -41,7 +45,9 @@ export default function Login() {
     setSubmitting(false);
 
     if (success) {
-      navigate(redirectTo);
+      navigate(redirectTo, {
+        replace: true,
+      });
     } else {
       setError("Invalid email/phone or password.");
     }
@@ -54,22 +60,16 @@ export default function Login() {
           <Card className="p-4 shadow-sm">
             <h4 className="fw-bold mb-3">Login to NexBuy</h4>
 
-            {error && (
-              <Alert variant="danger">{error}</Alert>
-            )}
+            {error && <Alert variant="danger">{error}</Alert>}
 
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3">
-                <Form.Label>
-                  Email or Phone Number
-                </Form.Label>
+                <Form.Label>Email or Phone Number</Form.Label>
 
                 <Form.Control
                   type="text"
                   value={identifier}
-                  onChange={(e) =>
-                    setIdentifier(e.target.value)
-                  }
+                  onChange={(e) => setIdentifier(e.target.value)}
                   required
                 />
               </Form.Group>
@@ -80,9 +80,7 @@ export default function Login() {
                 <Form.Control
                   type="password"
                   value={password}
-                  onChange={(e) =>
-                    setPassword(e.target.value)
-                  }
+                  onChange={(e) => setPassword(e.target.value)}
                   required
                 />
               </Form.Group>
@@ -93,15 +91,18 @@ export default function Login() {
                 className="w-100 fw-semibold"
                 disabled={submitting}
               >
-                {submitting
-                  ? "Logging in..."
-                  : "Login"}
+                {submitting ? "Logging in..." : "Login"}
               </Button>
             </Form>
 
             <div className="text-center mt-3 small">
               New to NexBuy?{" "}
-              <Link to="/register">
+              <Link
+                to="/register"
+                state={{
+                  from: redirectTo,
+                }}
+              >
                 Create an account
               </Link>
             </div>

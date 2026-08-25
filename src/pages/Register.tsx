@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -8,112 +8,75 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
 
-import { getUsers, registerUser } from "../api/userApi";
-import { useApi } from "../hooks/useApi";
-import type { User } from "../types";
+import { AuthContext } from "../context/AuthContext";
 
-export default function Register() {
+export default function Login() {
+  const auth = useContext(AuthContext);
+
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const { loading, error: apiError, execute } = useApi();
-
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+
+  const redirectTo =
+    (
+      location.state as {
+        from?: string;
+      }
+    )?.from ?? "/";
+
+  if (!auth) {
+    return null;
+  }
+
+  const { login } = auth;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     setError("");
+    setSubmitting(true);
 
-    const existingUsers = await execute(getUsers);
+    const success = await login(identifier, password);
 
-    if (!existingUsers) {
-      return;
-    }
+    setSubmitting(false);
 
-    const emailTaken = existingUsers.some(
-      (user: User) =>
-        user.email.trim().toLowerCase() === email.trim().toLowerCase()
-    );
-
-    const phoneTaken = existingUsers.some(
-      (user: User) => user.phone === phone.trim()
-    );
-
-    if (emailTaken || phoneTaken) {
-      setError("User already exists.");
-      return;
-    }
-
-    const newUser: User = {
-      id: crypto.randomUUID(),
-      name: name.trim(),
-      email: email.trim(),
-      phone: phone.trim(),
-      password,
-    };
-
-    const registeredUser = await execute(() =>
-      registerUser(newUser)
-    );
-
-    if (registeredUser) {
-      navigate("/login");
+    if (success) {
+      navigate(redirectTo, {
+        replace: true,
+      });
+    } else {
+      setError("Invalid email/phone or password.");
     }
   };
-
-  const displayError = error || apiError;
 
   return (
     <Container className="py-5">
       <Row className="justify-content-center">
         <Col md={6} lg={4}>
           <Card className="p-4 shadow-sm">
-            <h4 className="fw-bold mb-3">
-              Create your NexBuy account
-            </h4>
+            <h4 className="fw-bold mb-3">Login to NexBuy</h4>
 
-            {displayError && (
-              <Alert variant="danger">
-                {displayError}
-              </Alert>
-            )}
+            {error && <Alert variant="danger">{error}</Alert>}
 
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3">
-                <Form.Label>Name</Form.Label>
+                <Form.Label>Email or Phone Number</Form.Label>
+
                 <Form.Control
                   type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                />
-              </Form.Group>
-
-              <Form.Group className="mb-3">
-                <Form.Label>Email</Form.Label>
-                <Form.Control
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </Form.Group>
-
-              <Form.Group className="mb-3">
-                <Form.Label>Phone</Form.Label>
-                <Form.Control
-                  type="tel"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
+                  value={identifier}
+                  onChange={(e) => setIdentifier(e.target.value)}
                   required
                 />
               </Form.Group>
 
               <Form.Group className="mb-3">
                 <Form.Label>Password</Form.Label>
+
                 <Form.Control
                   type="password"
                   value={password}
@@ -126,15 +89,22 @@ export default function Register() {
                 type="submit"
                 variant="primary"
                 className="w-100 fw-semibold"
-                disabled={loading}
+                disabled={submitting}
               >
-                {loading ? "Creating account..." : "Register"}
+                {submitting ? "Logging in..." : "Login"}
               </Button>
             </Form>
 
             <div className="text-center mt-3 small">
-              Already have an account?{" "}
-              <Link to="/login">Login</Link>
+              New to NexBuy?{" "}
+              <Link
+                to="/register"
+                state={{
+                  from: redirectTo,
+                }}
+              >
+                Create an account
+              </Link>
             </div>
           </Card>
         </Col>

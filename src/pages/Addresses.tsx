@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -11,12 +11,14 @@ import Modal from "react-bootstrap/Modal";
 
 import { AuthContext } from "../context/AuthContext";
 import { useApi } from "../hooks/useApi";
+
 import {
   getAddressesByUserId,
   createAddress,
   updateAddress,
 } from "../api/addressApi";
-import type { Address, NewAddress } from "../types";
+
+import type { Address, CartItem, NewAddress } from "../types";
 
 const emptyForm: Omit<NewAddress, "userId"> = {
   name: "",
@@ -27,15 +29,27 @@ const emptyForm: Omit<NewAddress, "userId"> = {
   pincode: "",
 };
 
+type NavigationState = {
+  from?: string;
+  buyNowItem?: CartItem;
+};
+
 export default function Addresses() {
   const auth = useContext(AuthContext);
+
   const navigate = useNavigate();
+  const location = useLocation();
 
   const user = auth?.user;
 
+  const navigationState = location.state as NavigationState | null;
+
   const [addresses, setAddresses] = useState<Address[]>([]);
+
   const [showModal, setShowModal] = useState(false);
+
   const [editingId, setEditingId] = useState<string | null>(null);
+
   const [form, setForm] = useState(emptyForm);
 
   const {
@@ -44,16 +58,10 @@ export default function Addresses() {
     execute: executeLoad,
   } = useApi();
 
-  const {
-    loading: saving,
-    error: saveError,
-    execute: executeSave,
-  } = useApi();
+  const { loading: saving, error: saveError, execute: executeSave } = useApi();
 
   const loadAddresses = async (userId: string) => {
-    const data = await executeLoad(() =>
-      getAddressesByUserId(userId)
-    );
+    const data = await executeLoad(() => getAddressesByUserId(userId));
 
     if (data) {
       setAddresses(data);
@@ -62,7 +70,13 @@ export default function Addresses() {
 
   useEffect(() => {
     if (!user) {
-      navigate("/login", { state: { from: "/addresses" } });
+      navigate("/login", {
+        state: {
+          from: "/addresses",
+        },
+        replace: true,
+      });
+
       return;
     }
 
@@ -97,22 +111,32 @@ export default function Addresses() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    const isEditing = Boolean(editingId);
+
     const payload: NewAddress = {
       ...form,
       userId: user.id,
     };
 
     const result = editingId
-      ? await executeSave(() =>
-          updateAddress(editingId, payload)
-        )
-      : await executeSave(() =>
-          createAddress(payload)
-        );
+      ? await executeSave(() => updateAddress(editingId, payload))
+      : await executeSave(() => createAddress(payload));
 
-    if (result) {
-      await loadAddresses(user.id);
-      setShowModal(false);
+    if (!result) {
+      return;
+    }
+
+    await loadAddresses(user.id);
+
+    setShowModal(false);
+
+    if (!isEditing && navigationState?.from) {
+      navigate(navigationState.from, {
+        state: {
+          buyNowItem: navigationState.buyNowItem,
+        },
+        replace: true,
+      });
     }
   };
 
@@ -126,16 +150,12 @@ export default function Addresses() {
         </Button>
       </div>
 
-      {listError && (
-        <Alert variant="danger">{listError}</Alert>
-      )}
+      {listError && <Alert variant="danger">{listError}</Alert>}
 
       {loadingList && <div>Loading...</div>}
 
       {!loadingList && addresses.length === 0 && (
-        <Alert variant="info">
-          You have no saved addresses yet.
-        </Alert>
+        <Alert variant="info">You have no saved addresses yet.</Alert>
       )}
 
       <Row className="g-3">
@@ -144,13 +164,10 @@ export default function Addresses() {
             <Card className="p-3 shadow-sm">
               <div className="fw-semibold">{addr.name}</div>
 
-              <div className="small text-muted">
-                {addr.phone}
-              </div>
+              <div className="small text-muted">{addr.phone}</div>
 
               <div className="small mt-1">
-                {addr.address}, {addr.city}, {addr.state} -{" "}
-                {addr.pincode}
+                {addr.address}, {addr.city}, {addr.state} - {addr.pincode}
               </div>
 
               <Button
@@ -166,10 +183,7 @@ export default function Addresses() {
         ))}
       </Row>
 
-      <Modal
-        show={showModal}
-        onHide={() => setShowModal(false)}
-      >
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>
             {editingId ? "Edit Address" : "Add Address"}
@@ -178,12 +192,11 @@ export default function Addresses() {
 
         <Form onSubmit={handleSubmit}>
           <Modal.Body>
-            {saveError && (
-              <Alert variant="danger">{saveError}</Alert>
-            )}
+            {saveError && <Alert variant="danger">{saveError}</Alert>}
 
             <Form.Group className="mb-2">
               <Form.Label>Name</Form.Label>
+
               <Form.Control
                 required
                 value={form.name}
@@ -198,6 +211,7 @@ export default function Addresses() {
 
             <Form.Group className="mb-2">
               <Form.Label>Phone</Form.Label>
+
               <Form.Control
                 required
                 value={form.phone}
@@ -212,6 +226,7 @@ export default function Addresses() {
 
             <Form.Group className="mb-2">
               <Form.Label>Address</Form.Label>
+
               <Form.Control
                 required
                 value={form.address}
@@ -228,6 +243,7 @@ export default function Addresses() {
               <Col>
                 <Form.Group className="mb-2">
                   <Form.Label>City</Form.Label>
+
                   <Form.Control
                     required
                     value={form.city}
@@ -244,6 +260,7 @@ export default function Addresses() {
               <Col>
                 <Form.Group className="mb-2">
                   <Form.Label>State</Form.Label>
+
                   <Form.Control
                     required
                     value={form.state}
@@ -260,6 +277,7 @@ export default function Addresses() {
 
             <Form.Group className="mb-2">
               <Form.Label>Pincode</Form.Label>
+
               <Form.Control
                 required
                 value={form.pincode}
@@ -274,18 +292,11 @@ export default function Addresses() {
           </Modal.Body>
 
           <Modal.Footer>
-            <Button
-              variant="secondary"
-              onClick={() => setShowModal(false)}
-            >
+            <Button variant="secondary" onClick={() => setShowModal(false)}>
               Cancel
             </Button>
 
-            <Button
-              variant="primary"
-              type="submit"
-              disabled={saving}
-            >
+            <Button variant="primary" type="submit" disabled={saving}>
               {saving ? "Saving..." : "Save Address"}
             </Button>
           </Modal.Footer>

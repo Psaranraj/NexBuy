@@ -13,10 +13,7 @@ import { useWishlist } from "../hooks/useWishlist";
 import { useAuth } from "../hooks/useAuth";
 import Loading from "../components/Loading";
 
-import type {
-  Product,
-  ProductVariant,
-} from "../types";
+import type { CartItem, Product, ProductVariant } from "../types";
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -24,16 +21,17 @@ export default function ProductDetails() {
 
   const { user } = useAuth();
   const { addToCart } = useCart();
-  const { isInWishlist, toggleWishlist } =
-    useWishlist();
 
-  const [product, setProduct] =
-    useState<Product | null>(null);
+  const { isInWishlist, toggleWishlist } = useWishlist();
 
-  const [selectedVariant, setSelectedVariant] =
-    useState<ProductVariant | null>(null);
+  const [product, setProduct] = useState<Product | null>(null);
+
+  const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(
+    null,
+  );
 
   const [loading, setLoading] = useState(true);
+
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -51,10 +49,7 @@ export default function ProductDetails() {
 
         setProduct(data);
 
-        if (
-          data.variants &&
-          data.variants.length > 0
-        ) {
+        if (data.variants && data.variants.length > 0) {
           setSelectedVariant(data.variants[0]);
         }
       } catch {
@@ -74,9 +69,7 @@ export default function ProductDetails() {
   if (error) {
     return (
       <Container className="py-5">
-        <Alert variant="danger">
-          {error}
-        </Alert>
+        <Alert variant="danger">{error}</Alert>
       </Container>
     );
   }
@@ -84,29 +77,29 @@ export default function ProductDetails() {
   if (!product) {
     return (
       <Container className="py-5">
-        <Alert variant="warning">
-          Product not found.
-        </Alert>
+        <Alert variant="warning">Product not found.</Alert>
       </Container>
     );
   }
 
-  const currentPrice =
-    selectedVariant?.price ?? product.price;
+  const currentPrice = selectedVariant?.price ?? product.price;
 
   const currentOriginalPrice =
-    selectedVariant?.originalPrice ??
-    product.originalPrice;
+    selectedVariant?.originalPrice ?? product.originalPrice;
 
   const discount =
-    currentOriginalPrice &&
-    currentOriginalPrice > currentPrice
+    currentOriginalPrice && currentOriginalPrice > currentPrice
       ? Math.round(
-          ((currentOriginalPrice - currentPrice) /
-            currentOriginalPrice) *
-            100
+          ((currentOriginalPrice - currentPrice) / currentOriginalPrice) * 100,
         )
       : 0;
+
+  const selectedProduct: Product = {
+    ...product,
+    price: currentPrice,
+    originalPrice: currentOriginalPrice,
+    selectedVariant: selectedVariant ?? undefined,
+  };
 
   const handleAddToCart = () => {
     if (!user) {
@@ -119,13 +112,7 @@ export default function ProductDetails() {
       return;
     }
 
-    addToCart({
-      ...product,
-      price: currentPrice,
-      originalPrice: currentOriginalPrice,
-      selectedVariant:
-        selectedVariant ?? undefined,
-    });
+    addToCart(selectedProduct);
   };
 
   const handleBuyNow = () => {
@@ -139,21 +126,21 @@ export default function ProductDetails() {
       return;
     }
 
-    addToCart({
-      ...product,
-      price: currentPrice,
-      originalPrice: currentOriginalPrice,
-      selectedVariant:
-        selectedVariant ?? undefined,
-    });
+    const buyNowItem: CartItem = {
+      ...selectedProduct,
+      quantity: 1,
+    };
 
-    navigate("/checkout");
+    navigate("/checkout", {
+      state: {
+        buyNowItem,
+      },
+    });
   };
 
   return (
     <Container className="py-4">
       <Row className="g-4">
-        {/* Product Image */}
         <Col lg={5}>
           <Card className="shadow-sm h-100">
             <Card.Body className="d-flex justify-content-center align-items-center">
@@ -166,140 +153,90 @@ export default function ProductDetails() {
           </Card>
         </Col>
 
-        {/* Product Details */}
         <Col lg={7}>
-          <div className="text-muted mb-1">
-            {product.brand}
-          </div>
+          <div className="text-muted mb-1">{product.brand}</div>
 
-          <h2 className="fw-bold mb-3">
-            {product.name}
-          </h2>
+          <h2 className="fw-bold mb-3">{product.name}</h2>
 
           <div className="mb-3">
-            <span className="text-warning">
-              ★
-            </span>{" "}
-            <span className="fw-semibold">
-              {product.rating}
-            </span>
+            <span className="text-warning">★</span>{" "}
+            <span className="fw-semibold">{product.rating}</span>
           </div>
 
-          {/* Selected Variant */}
           {selectedVariant && (
             <h5 className="mb-3">
-              <strong>Variant:</strong>{" "}
-              {selectedVariant.name}
+              <strong>Variant:</strong> {selectedVariant.name}
             </h5>
           )}
 
-          {/* Variant Cards */}
-          {product.variants &&
-            product.variants.length > 0 && (
-              <div className="mb-4">
-                <h5 className="fw-bold mb-3">
-                  Select Variant
-                </h5>
+          {product.variants && product.variants.length > 0 && (
+            <div className="mb-4">
+              <h5 className="fw-bold mb-3">Select Variant</h5>
 
-                <Row className="g-2">
-                  {product.variants.map(
-                    (variant) => {
-                      const variantDiscount =
-                        Math.round(
-                          ((variant.originalPrice -
-                            variant.price) /
-                            variant.originalPrice) *
-                            100
-                        );
+              <Row className="g-2">
+                {product.variants.map((variant) => {
+                  const variantDiscount = Math.round(
+                    ((variant.originalPrice - variant.price) /
+                      variant.originalPrice) *
+                      100,
+                  );
 
-                      const isSelected =
-                        selectedVariant?.id ===
-                        variant.id;
+                  const isSelected = selectedVariant?.id === variant.id;
 
-                      return (
-                        <Col
-                          xs={12}
-                          sm={6}
-                          md={4}
-                          key={variant.id}
-                        >
-                          <Card
-                            className={`h-100 ${
-                              isSelected
-                                ? "border-dark border-2"
-                                : "border"
-                            }`}
-                            role="button"
-                            onClick={() =>
-                              setSelectedVariant(
-                                variant
-                              )
+                  return (
+                    <Col xs={12} sm={6} md={4} key={variant.id}>
+                      <Card
+                        className={`h-100 ${
+                          isSelected ? "border-dark border-2" : "border"
+                        }`}
+                        role="button"
+                        onClick={() => setSelectedVariant(variant)}
+                      >
+                        <Card.Body className="p-3">
+                          <Card.Title className="fs-6 fw-semibold">
+                            {variant.name}
+                          </Card.Title>
+
+                          <div className="text-success fw-bold">
+                            ↓{variantDiscount}%
+                          </div>
+
+                          <div className="fw-bold fs-5">
+                            ₹{variant.price.toLocaleString("en-IN")}
+                          </div>
+
+                          <div className="text-muted text-decoration-line-through small">
+                            ₹{variant.originalPrice.toLocaleString("en-IN")}
+                          </div>
+
+                          <div
+                            className={
+                              variant.stock <= 3
+                                ? "text-danger small mt-2"
+                                : "text-success small mt-2"
                             }
                           >
-                            <Card.Body className="p-3">
-                              {/* Variant Name */}
-                              <Card.Title className="fs-6 fw-semibold">
-                                {variant.name}
-                              </Card.Title>
+                            {variant.stock <= 3
+                              ? `Only ${variant.stock} left`
+                              : `${variant.stock} in stock`}
+                          </div>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                  );
+                })}
+              </Row>
+            </div>
+          )}
 
-                              {/* Discount */}
-                              <div className="text-success fw-bold">
-                                ↓{variantDiscount}%
-                              </div>
-
-                              {/* Price */}
-                              <div className="fw-bold fs-5">
-                                ₹
-                                {variant.price.toLocaleString(
-                                  "en-IN"
-                                )}
-                              </div>
-
-                              {/* Original Price */}
-                              <div className="text-muted text-decoration-line-through small">
-                                ₹
-                                {variant.originalPrice.toLocaleString(
-                                  "en-IN"
-                                )}
-                              </div>
-
-                              {/* Stock */}
-                              <div
-                                className={
-                                  variant.stock <= 3
-                                    ? "text-danger small mt-2"
-                                    : "text-success small mt-2"
-                                }
-                              >
-                                {variant.stock <= 3
-                                  ? `Only ${variant.stock} left`
-                                  : `${variant.stock} in stock`}
-                              </div>
-                            </Card.Body>
-                          </Card>
-                        </Col>
-                      );
-                    }
-                  )}
-                </Row>
-              </div>
-            )}
-
-          {/* Product Price */}
           <div className="mb-4">
             <span className="fw-bold fs-2">
-              ₹
-              {currentPrice.toLocaleString(
-                "en-IN"
-              )}
+              ₹{currentPrice.toLocaleString("en-IN")}
             </span>
 
             {currentOriginalPrice && (
               <span className="text-muted text-decoration-line-through ms-3">
-                ₹
-                {currentOriginalPrice.toLocaleString(
-                  "en-IN"
-                )}
+                ₹{currentOriginalPrice.toLocaleString("en-IN")}
               </span>
             )}
 
@@ -310,12 +247,8 @@ export default function ProductDetails() {
             )}
           </div>
 
-          {/* Description */}
-          <p className="text-muted">
-            {product.description}
-          </p>
+          <p className="text-muted">{product.description}</p>
 
-          {/* Buttons */}
           <div className="d-flex gap-3 flex-wrap">
             <Button
               variant="warning"
@@ -338,9 +271,7 @@ export default function ProductDetails() {
             <Button
               variant="outline-danger"
               size="lg"
-              onClick={() =>
-                toggleWishlist(product)
-              }
+              onClick={() => toggleWishlist(product)}
             >
               {isInWishlist(product.id)
                 ? "Remove from Wishlist"

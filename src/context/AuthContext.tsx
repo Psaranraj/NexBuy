@@ -5,10 +5,7 @@ import { useApi } from "../hooks/useApi";
 
 type AuthContextType = {
   user: User | null;
-  login: (
-    identifier: string,
-    password: string
-  ) => Promise<boolean>;
+  login: (identifier: string, password: string) => Promise<boolean>;
   logout: () => void;
 };
 
@@ -17,14 +14,12 @@ type AuthProviderProps = {
 };
 
 export const AuthContext = createContext<AuthContextType | undefined>(
-  undefined
+  undefined,
 );
 
 const STORAGE_KEY = "nexbuy_user";
 
-export function AuthProvider({
-  children,
-}: AuthProviderProps) {
+export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(() => {
     const savedUser = localStorage.getItem(STORAGE_KEY);
 
@@ -44,7 +39,7 @@ export function AuthProvider({
 
   const login = async (
     identifier: string,
-    password: string
+    password: string,
   ): Promise<boolean> => {
     const users = await execute(getUsers);
 
@@ -59,10 +54,7 @@ export function AuthProvider({
       const userEmail = currentUser.email.trim().toLowerCase();
       const userPhone = currentUser.phone.trim();
 
-      return (
-        userEmail === cleanIdentifier ||
-        userPhone === cleanPhone
-      );
+      return userEmail === cleanIdentifier || userPhone === cleanPhone;
     });
 
     if (!foundUser) {
@@ -75,10 +67,7 @@ export function AuthProvider({
 
     setUser(foundUser);
 
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(foundUser)
-    );
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(foundUser));
 
     return true;
   };

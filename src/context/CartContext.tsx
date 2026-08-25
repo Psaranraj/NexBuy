@@ -12,13 +12,14 @@ type CartContextType = {
   increaseQuantity: (productId: string) => void;
   decreaseQuantity: (productId: string) => void;
   clearCart: () => void;
+  removePurchasedItems: (purchasedItems: CartItem[]) => void;
 };
 
 export const CartContext = createContext<CartContextType | undefined>(
   undefined,
 );
 
-export function CartProvider(props: { children: any }) {
+export function CartProvider(props: { children: React.ReactNode }) {
   const { children } = props;
 
   const auth = useContext(AuthContext);
@@ -28,7 +29,6 @@ export function CartProvider(props: { children: any }) {
   const [cartId, setCartId] = useState<string | null>(null);
 
   const { execute: executeLoad } = useApi();
-
   const { execute: executeUpdate } = useApi();
 
   useEffect(() => {
@@ -65,26 +65,22 @@ export function CartProvider(props: { children: any }) {
   const addToCart = (product: Product) => {
     const existing = cart.find((item) => item.id === product.id);
 
-    let updatedItems: CartItem[];
-
-    if (existing) {
-      updatedItems = cart.map((item) =>
-        item.id === product.id
-          ? {
-              ...item,
-              quantity: item.quantity + 1,
-            }
-          : item,
-      );
-    } else {
-      updatedItems = [
-        ...cart,
-        {
-          ...product,
-          quantity: 1,
-        },
-      ];
-    }
+    const updatedItems = existing
+      ? cart.map((item) =>
+          item.id === product.id
+            ? {
+                ...item,
+                quantity: item.quantity + 1,
+              }
+            : item,
+        )
+      : [
+          ...cart,
+          {
+            ...product,
+            quantity: 1,
+          },
+        ];
 
     syncCart(updatedItems);
   };
@@ -127,6 +123,27 @@ export function CartProvider(props: { children: any }) {
     syncCart([]);
   };
 
+  const removePurchasedItems = (purchasedItems: CartItem[]) => {
+    const updatedItems = cart
+      .map((cartItem) => {
+        const purchasedItem = purchasedItems.find(
+          (item) => item.id === cartItem.id,
+        );
+
+        if (!purchasedItem) {
+          return cartItem;
+        }
+
+        return {
+          ...cartItem,
+          quantity: cartItem.quantity - purchasedItem.quantity,
+        };
+      })
+      .filter((item) => item.quantity > 0);
+
+    syncCart(updatedItems);
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -136,6 +153,7 @@ export function CartProvider(props: { children: any }) {
         increaseQuantity,
         decreaseQuantity,
         clearCart,
+        removePurchasedItems,
       }}
     >
       {children}
