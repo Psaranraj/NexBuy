@@ -1,0 +1,764 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "name": "iPhone 15",
+      "brand": "Apple",
+      "price": 65999,
+      "originalPrice": 79900,
+      "category": "Mobiles",
+      "rating": 4.7,
+      "image": "/products/product_01.png",
+      "description": "Latest Apple iPhone with A16 Bionic chip and dual camera system.",
+      "variants": [
+        {
+          "id": "1-1",
+          "label": "128 GB + 6 GB",
+          "price": 46999,
+          "originalPrice": 74999,
+          "stock": 6
+        },
+        {
+          "id": "1-2",
+          "label": "256 GB + 12 GB",
+          "price": 59999,
+          "originalPrice": 89999,
+          "stock": 6
+        },
+        {
+          "id": "1-3",
+          "label": "256 GB + 8 GB",
+          "price": 53999,
+          "originalPrice": 79999,
+          "stock": 2
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Galaxy S23",
+      "brand": "Samsung",
+      "price": 54999,
+      "originalPrice": 64999,
+      "category": "Mobiles",
+      "rating": 4.5,
+      "image": "/products/product_02.png",
+      "description": "Samsung flagship with Dynamic AMOLED display and 50MP camera.",
+      "variants": [
+        {
+          "id": "2-1",
+          "label": "128 GB + 8 GB",
+          "price": 49999,
+          "originalPrice": 59999,
+          "stock": 5
+        },
+        {
+          "id": "2-2",
+          "label": "256 GB + 8 GB",
+          "price": 54999,
+          "originalPrice": 64999,
+          "stock": 4
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "name": "OnePlus 12R",
+      "brand": "OnePlus",
+      "price": 39999,
+      "originalPrice": 45999,
+      "category": "Mobiles",
+      "rating": 4.4,
+      "image": "/products/product_03.png",
+      "description": "Snapdragon powered flagship killer with 100W fast charging.",
+      "variants": [
+        {
+          "id": "3-1",
+          "label": "128 GB + 8 GB",
+          "price": 37999,
+          "originalPrice": 42999,
+          "stock": 8
+        },
+        {
+          "id": "3-2",
+          "label": "256 GB + 16 GB",
+          "price": 45999,
+          "originalPrice": 49999,
+          "stock": 3
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "name": "Redmi Note 13 Pro",
+      "brand": "Xiaomi",
+      "price": 21999,
+      "originalPrice": 25999,
+      "category": "Mobiles",
+      "rating": 4.2,
+      "image": "/products/product_04.png",
+      "description": "AMOLED display with high resolution camera and fast charging.",
+      "variants": [
+        {
+          "id": "4-1",
+          "label": "128 GB + 8 GB",
+          "price": 21999,
+          "originalPrice": 25999,
+          "stock": 7
+        },
+        {
+          "id": "4-2",
+          "label": "256 GB + 12 GB",
+          "price": 24999,
+          "originalPrice": 29999,
+          "stock": 4
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "name": "Realme 12 Pro+",
+      "brand": "Realme",
+      "price": 26999,
+      "originalPrice": 29999,
+      "category": "Mobiles",
+      "rating": 4.3,
+      "image": "/products/product_05.png",
+      "description": "Periscope telephoto camera with curved AMOLED display.",
+      "variants": [
+        {
+          "id": "5-1",
+          "label": "128 GB + 8 GB",
+          "price": 26999,
+          "originalPrice": 29999,
+          "stock": 5
+        },
+        {
+          "id": "5-2",
+          "label": "256 GB + 12 GB",
+          "price": 29999,
+          "originalPrice": 34999,
+          "stock": 2
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "name": "Galaxy M14",
+      "brand": "Samsung",
+      "price": 12999,
+      "originalPrice": 15999,
+      "category": "Mobiles",
+      "rating": 4.1,
+      "image": "/products/product_06.png",
+      "description": "Large battery with triple camera system.",
+      "variants": [
+        {
+          "id": "6-1",
+          "label": "64 GB + 4 GB",
+          "price": 12999,
+          "originalPrice": 15999,
+          "stock": 9
+        },
+        {
+          "id": "6-2",
+          "label": "128 GB + 6 GB",
+          "price": 14999,
+          "originalPrice": 17999,
+          "stock": 4
+        }
+      ]
+    },
+    {
+      "id": "7",
+      "name": "iPhone 13",
+      "brand": "Apple",
+      "price": 46999,
+      "originalPrice": 59900,
+      "category": "Mobiles",
+      "rating": 4.6,
+      "image": "/products/product_07.png",
+      "description": "A15 Bionic chip with Super Retina XDR display.",
+      "variants": [
+        {
+          "id": "7-1",
+          "label": "128 GB",
+          "price": 46999,
+          "originalPrice": 59900,
+          "stock": 6
+        },
+        {
+          "id": "7-2",
+          "label": "256 GB",
+          "price": 56999,
+          "originalPrice": 69900,
+          "stock": 3
+        }
+      ]
+    },
+    {
+      "id": "8",
+      "name": "OnePlus Nord CE 4",
+      "brand": "OnePlus",
+      "price": 22999,
+      "originalPrice": 25999,
+      "category": "Mobiles",
+      "rating": 4.3,
+      "image": "/products/product_08.png",
+      "description": "5G smartphone with powerful chipset and fast charging.",
+      "variants": [
+        {
+          "id": "8-1",
+          "label": "128 GB + 8 GB",
+          "price": 22999,
+          "originalPrice": 25999,
+          "stock": 7
+        },
+        {
+          "id": "8-2",
+          "label": "256 GB + 8 GB",
+          "price": 24999,
+          "originalPrice": 28999,
+          "stock": 3
+        }
+      ]
+    },
+    {
+      "id": "9",
+      "name": "Redmi 13C",
+      "brand": "Xiaomi",
+      "price": 8999,
+      "originalPrice": 10999,
+      "category": "Mobiles",
+      "rating": 4,
+      "image": "/products/product_09.png",
+      "description": "Budget smartphone with large display and long battery life.",
+      "variants": [
+        {
+          "id": "9-1",
+          "label": "128 GB + 4 GB",
+          "price": 8999,
+          "originalPrice": 10999,
+          "stock": 10
+        },
+        {
+          "id": "9-2",
+          "label": "256 GB + 8 GB",
+          "price": 10999,
+          "originalPrice": 13999,
+          "stock": 5
+        }
+      ]
+    },
+    {
+      "id": "10",
+      "name": "Realme Narzo 70",
+      "brand": "Realme",
+      "price": 15999,
+      "originalPrice": 18999,
+      "category": "Mobiles",
+      "rating": 4.1,
+      "image": "/products/product_10.png",
+      "description": "5G smartphone with Dimensity chipset and fast charging.",
+      "variants": [
+        {
+          "id": "10-1",
+          "label": "128 GB + 6 GB",
+          "price": 15999,
+          "originalPrice": 18999,
+          "stock": 8
+        },
+        {
+          "id": "10-2",
+          "label": "256 GB + 8 GB",
+          "price": 17999,
+          "originalPrice": 20999,
+          "stock": 4
+        }
+      ]
+    },
+    {
+      "id": "11",
+      "name": "MacBook Air M2",
+      "brand": "Apple",
+      "price": 99900,
+      "originalPrice": 114900,
+      "category": "Laptops",
+      "rating": 4.8,
+      "image": "/products/product_11.png",
+      "description": "13-inch Liquid Retina display with M2 chip and all-day battery."
+    },
+    {
+      "id": "12",
+      "name": "Inspiron 15",
+      "brand": "Dell",
+      "price": 45999,
+      "originalPrice": 54999,
+      "category": "Laptops",
+      "rating": 4.2,
+      "image": "/products/product_12.png",
+      "description": "Intel Core i5 with 16GB RAM for everyday productivity."
+    },
+    {
+      "id": "13",
+      "name": "Pavilion 14",
+      "brand": "HP",
+      "price": 52999,
+      "originalPrice": 61999,
+      "category": "Laptops",
+      "rating": 4.3,
+      "image": "/products/product_13.png",
+      "description": "Sleek and lightweight laptop with Full HD display."
+    },
+    {
+      "id": "14",
+      "name": "IdeaPad Slim 5",
+      "brand": "Lenovo",
+      "price": 47999,
+      "originalPrice": 55999,
+      "category": "Laptops",
+      "rating": 4.2,
+      "image": "/products/product_14.png",
+      "description": "AMD Ryzen processor with SSD storage."
+    },
+    {
+      "id": "15",
+      "name": "ROG Strix G15",
+      "brand": "ASUS",
+      "price": 79999,
+      "originalPrice": 89999,
+      "category": "Laptops",
+      "rating": 4.5,
+      "image": "/products/product_15.png",
+      "description": "Gaming laptop with dedicated graphics and high refresh rate display."
+    },
+    {
+      "id": "16",
+      "name": "Aspire 7",
+      "brand": "Acer",
+      "price": 54999,
+      "originalPrice": 62999,
+      "category": "Laptops",
+      "rating": 4.1,
+      "image": "/products/product_16.png",
+      "description": "Powerful laptop suitable for productivity and gaming."
+    },
+    {
+      "id": "17",
+      "name": "MacBook Pro 14",
+      "brand": "Apple",
+      "price": 169900,
+      "originalPrice": 189900,
+      "category": "Laptops",
+      "rating": 4.9,
+      "image": "/products/product_17.png",
+      "description": "Professional laptop with powerful Apple silicon processor."
+    },
+    {
+      "id": "18",
+      "name": "Vivobook 15",
+      "brand": "ASUS",
+      "price": 41999,
+      "originalPrice": 48999,
+      "category": "Laptops",
+      "rating": 4,
+      "image": "/products/product_18.png",
+      "description": "Slim and lightweight laptop for daily use."
+    },
+    {
+      "id": "19",
+      "name": "Victus 15",
+      "brand": "HP",
+      "price": 62999,
+      "originalPrice": 71999,
+      "category": "Laptops",
+      "rating": 4.4,
+      "image": "/products/product_19.png",
+      "description": "Gaming laptop with dedicated graphics and fast display."
+    },
+    {
+      "id": "20",
+      "name": "ThinkPad E14",
+      "brand": "Lenovo",
+      "price": 58999,
+      "originalPrice": 66999,
+      "category": "Laptops",
+      "rating": 4.3,
+      "image": "/products/product_20.png",
+      "description": "Business laptop with durable build and comfortable keyboard."
+    },
+    {
+      "id": "21",
+      "name": "iPad 10th Gen",
+      "brand": "Apple",
+      "price": 34900,
+      "originalPrice": 39900,
+      "category": "Tablets",
+      "rating": 4.6,
+      "image": "/products/product_21.png",
+      "description": "Tablet with Liquid Retina display and powerful Apple processor."
+    },
+    {
+      "id": "22",
+      "name": "Galaxy Tab S9",
+      "brand": "Samsung",
+      "price": 65999,
+      "originalPrice": 74999,
+      "category": "Tablets",
+      "rating": 4.5,
+      "image": "/products/product_22.png",
+      "description": "Premium AMOLED tablet with S Pen support."
+    },
+    {
+      "id": "23",
+      "name": "Galaxy Tab A9",
+      "brand": "Samsung",
+      "price": 13999,
+      "originalPrice": 16999,
+      "category": "Tablets",
+      "rating": 4.1,
+      "image": "/products/product_23.png",
+      "description": "Compact tablet for entertainment and browsing."
+    },
+    {
+      "id": "24",
+      "name": "Pad 6",
+      "brand": "Xiaomi",
+      "price": 26999,
+      "originalPrice": 31999,
+      "category": "Tablets",
+      "rating": 4.2,
+      "image": "/products/product_24.png",
+      "description": "High refresh rate tablet with powerful speakers."
+    },
+    {
+      "id": "25",
+      "name": "iPad Air",
+      "brand": "Apple",
+      "price": 54900,
+      "originalPrice": 59900,
+      "category": "Tablets",
+      "rating": 4.7,
+      "image": "/products/product_25.png",
+      "description": "Powerful lightweight tablet with excellent display."
+    },
+    {
+      "id": "26",
+      "name": "MatePad",
+      "brand": "Realme",
+      "price": 16999,
+      "originalPrice": 19999,
+      "category": "Tablets",
+      "rating": 4,
+      "image": "/products/product_26.png",
+      "description": "Lightweight tablet with long battery life."
+    },
+    {
+      "id": "27",
+      "name": "AirPods Pro 2",
+      "brand": "Apple",
+      "price": 22999,
+      "originalPrice": 26900,
+      "category": "Accessories",
+      "rating": 4.7,
+      "image": "/products/product_27.png",
+      "description": "Wireless earbuds with active noise cancellation."
+    },
+    {
+      "id": "28",
+      "name": "Galaxy Buds2 Pro",
+      "brand": "Samsung",
+      "price": 14999,
+      "originalPrice": 18999,
+      "category": "Accessories",
+      "rating": 4.4,
+      "image": "/products/product_28.png",
+      "description": "Wireless earbuds with Hi-Fi sound and noise cancellation."
+    },
+    {
+      "id": "29",
+      "name": "Nova Buds",
+      "brand": "boAt",
+      "price": 1499,
+      "originalPrice": 2499,
+      "category": "Accessories",
+      "rating": 4,
+      "image": "/products/product_29.png",
+      "description": "Affordable true wireless earbuds with powerful bass."
+    },
+    {
+      "id": "30",
+      "name": "MX Master 3S",
+      "brand": "Logitech",
+      "price": 8999,
+      "originalPrice": 10999,
+      "category": "Accessories",
+      "rating": 4.6,
+      "image": "/products/product_30.png",
+      "description": "Ergonomic wireless mouse with fast scrolling."
+    },
+    {
+      "id": "31",
+      "name": "Pebble Backpack",
+      "brand": "boAt",
+      "price": 1999,
+      "originalPrice": 2999,
+      "category": "Accessories",
+      "rating": 4.1,
+      "image": "/products/product_31.png",
+      "description": "Water-resistant laptop backpack with multiple compartments."
+    },
+    {
+      "id": "32",
+      "name": "Anker PowerCore",
+      "brand": "Anker",
+      "price": 2499,
+      "originalPrice": 3499,
+      "category": "Accessories",
+      "rating": 4.3,
+      "image": "/products/product_32.png",
+      "description": "Power bank with fast charging support."
+    },
+    {
+      "id": "33",
+      "name": "Rockerz 450",
+      "brand": "boAt",
+      "price": 1799,
+      "originalPrice": 2999,
+      "category": "Accessories",
+      "rating": 4.2,
+      "image": "/products/product_33.png",
+      "description": "Wireless headphones with long battery life."
+    },
+    {
+      "id": "34",
+      "name": "Watch Series 9",
+      "brand": "Apple",
+      "price": 41900,
+      "originalPrice": 45900,
+      "category": "Accessories",
+      "rating": 4.7,
+      "image": "/products/product_34.png",
+      "description": "Smartwatch with advanced sensors and Retina display."
+    },
+    {
+      "id": "35",
+      "name": "Galaxy Watch 6",
+      "brand": "Samsung",
+      "price": 27999,
+      "originalPrice": 33999,
+      "category": "Accessories",
+      "rating": 4.4,
+      "image": "/products/product_35.png",
+      "description": "Smartwatch with fitness tracking and sleep monitoring."
+    },
+    {
+      "id": "36",
+      "name": "K380 Keyboard",
+      "brand": "Logitech",
+      "price": 2999,
+      "originalPrice": 3999,
+      "category": "Accessories",
+      "rating": 4.5,
+      "image": "/products/product_36.png",
+      "description": "Compact multi-device wireless keyboard."
+    },
+    {
+      "id": "37",
+      "name": "Wireless Keyboard",
+      "brand": "Logitech",
+      "price": 2499,
+      "originalPrice": 3499,
+      "category": "Accessories",
+      "rating": 4.2,
+      "image": "/products/product_37.png",
+      "description": "Comfortable wireless keyboard for everyday work."
+    },
+    {
+      "id": "38",
+      "name": "Portable SSD",
+      "brand": "SanDisk",
+      "price": 5499,
+      "originalPrice": 6999,
+      "category": "Accessories",
+      "rating": 4.5,
+      "image": "/products/product_38.png",
+      "description": "High-speed portable SSD for fast file storage."
+    },
+    {
+      "id": "39",
+      "name": "Wi-Fi Router",
+      "brand": "TP-Link",
+      "price": 3999,
+      "originalPrice": 4999,
+      "category": "Accessories",
+      "rating": 4.2,
+      "image": "/products/product_39.png",
+      "description": "Reliable high-speed Wi-Fi router for home use."
+    },
+    {
+      "id": "40",
+      "name": "Power Bank",
+      "brand": "Anker",
+      "price": 2999,
+      "originalPrice": 3999,
+      "category": "Accessories",
+      "rating": 4.3,
+      "image": "/products/product_40.png",
+      "description": "High-capacity portable power bank."
+    }
+  ],
+  "users": [
+    {
+      "name": "saran raj",
+      "email": "saranraj7299844@gmail.com",
+      "phone": "6374923042",
+      "password": "123",
+      "id": "iUo6enTov8E"
+    }
+  ],
+  "carts": [
+    {
+      "userId": "iUo6enTov8E",
+      "items": [
+        {
+          "id": "1",
+          "name": "iPhone 15",
+          "brand": "Apple",
+          "price": 59999,
+          "originalPrice": 89999,
+          "category": "Mobiles",
+          "rating": 4.7,
+          "image": "/products/product_01.png",
+          "description": "Latest Apple iPhone with A16 Bionic chip and dual camera system.",
+          "variants": [
+            {
+              "id": "1-1",
+              "label": "128 GB + 6 GB",
+              "price": 46999,
+              "originalPrice": 74999,
+              "stock": 6
+            },
+            {
+              "id": "1-2",
+              "label": "256 GB + 12 GB",
+              "price": 59999,
+              "originalPrice": 89999,
+              "stock": 6
+            },
+            {
+              "id": "1-3",
+              "label": "256 GB + 8 GB",
+              "price": 53999,
+              "originalPrice": 79999,
+              "stock": 2
+            }
+          ],
+          "selectedVariant": {
+            "id": "1-2",
+            "label": "256 GB + 12 GB",
+            "price": 59999,
+            "originalPrice": 89999,
+            "stock": 6
+          },
+          "quantity": 2
+        }
+      ],
+      "id": "Ym_AvcHBnc8"
+    }
+  ],
+  "addresses": [
+    {
+      "name": "saran raj",
+      "phone": "6374923042",
+      "address": "bommampatty",
+      "city": "namakkal",
+      "state": "tn",
+      "pincode": "637212",
+      "userId": "iUo6enTov8E",
+      "id": "KmdhN5qmkyo"
+    },
+    {
+      "name": "saran raj",
+      "phone": "1234567890",
+      "address": "velacheri",
+      "city": "chennai",
+      "state": "tn",
+      "pincode": "637002",
+      "userId": "iUo6enTov8E",
+      "id": "SwxjkZeLOMY"
+    }
+  ],
+  "orders": [
+    {
+      "userId": "iUo6enTov8E",
+      "cart": [
+        {
+          "id": "1",
+          "name": "iPhone 15",
+          "brand": "Apple",
+          "price": 59999,
+          "originalPrice": 89999,
+          "category": "Mobiles",
+          "rating": 4.7,
+          "image": "/products/product_01.png",
+          "description": "Latest Apple iPhone with A16 Bionic chip and dual camera system.",
+          "variants": [
+            {
+              "id": "1-1",
+              "label": "128 GB + 6 GB",
+              "price": 46999,
+              "originalPrice": 74999,
+              "stock": 6
+            },
+            {
+              "id": "1-2",
+              "label": "256 GB + 12 GB",
+              "price": 59999,
+              "originalPrice": 89999,
+              "stock": 6
+            },
+            {
+              "id": "1-3",
+              "label": "256 GB + 8 GB",
+              "price": 53999,
+              "originalPrice": 79999,
+              "stock": 2
+            }
+          ],
+          "selectedVariant": {
+            "id": "1-2",
+            "label": "256 GB + 12 GB",
+            "price": 59999,
+            "originalPrice": 89999,
+            "stock": 6
+          },
+          "quantity": 5
+        }
+      ],
+      "total": 299995,
+      "paymentMethod": "UPI",
+      "status": "Confirmed",
+      "deliveryAddress": {
+        "name": "saran raj",
+        "phone": "6374923042",
+        "address": "bommampatty",
+        "city": "namakkal",
+        "state": "tn",
+        "pincode": "637212",
+        "userId": "iUo6enTov8E",
+        "id": "KmdhN5qmkyo"
+      },
+      "createdAt": "2026-08-25T07:38:54.932Z",
+      "id": "U33ZB42DOtE"
+    }
+  ],
+  "wishlists": [
+    {
+      "userId": "iUo6enTov8E",
+      "products": [],
+      "id": "auf59B24tgE"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
